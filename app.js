@@ -1,5 +1,5 @@
 const http = require("http")
-const { parse } = require("querystring")
+const { getDataFromPOST } = require("./functions")
 
 const hostname = "127.0.0.1"
 const port = 3000
@@ -11,32 +11,9 @@ let emptyObject = {
 }
 
 const server = http.createServer((req, res) => {
-	// console.log(" __ REQUEST __ : ", req.url)
-	// res.setHeader(200, {"Content-Type": "text/plain"})
-	// res.end("Hello, World!\n")
-
-	let getDataFromPOST = (request, callback) => {
-		let jsonHeader = "application/json"
-
-		if (request.headers["content-type"] === jsonHeader) {
-			let body = ""
-
-			request.on("data", (chunk) => {
-				body += chunk.toString()
-			})
-
-			request.on("end", () => {
-				let parsedBody = JSON.parse(body)
-				console.log(" ___ Parsed Body ___ : ", parsedBody)
-				callback(parsedBody)
-			})
-		} else {
-			callback("That's not what it had to be but ... I AM SORRY!")
-		}
-	}
 
 	switch (req.url) {
-		// if (req.method === "GET") {}
+
 		case "/":
 			switch (req.method) {
 				case "GET":
