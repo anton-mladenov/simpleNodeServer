@@ -1,5 +1,5 @@
 const http = require("http")
-const { getDataFromPOST, emptyObject, updateDataFromPUT, deleteDataFromDELETE } = require("./functions")
+const { getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE } = require("./functions")
 const User = require("./model")
 
 const hostname = "127.0.0.1"
@@ -16,20 +16,17 @@ const server = http.createServer((req, res) => {
 
 		case "POST":
 			return getDataFromPOST(req, response => {
-				console.log("Success from POST 2 /users.")
 				res.end(`DONE! ${Object.keys(response)} : ${Object.values(response)}`)
 			})
 
 		case "PUT":
 			res.end("SUCCCESSSSS!!!")
 			return updateDataFromPUT(req, response => {
-				console.log("Success from PUT 2 /users.")
 				res.end(`Updated! ${Object.keys(response)} : ${Object.values(response)}`)
 			})
 
 		case "DELETE":
 			return deleteDataFromDELETE(req, response => {
-				console.log("Success from DELETE 2 /users.")
 				res.end(`DELETED! ${response}`)
 			})
 
