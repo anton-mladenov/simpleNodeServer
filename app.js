@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
 				case "POST":
 					return getDataFromPOST(req, response => {
 						console.log("Success from POST 2 /.")
-						res.end(`DONE! ${response.name}`)
+						res.end(`DONE! ${response}`)
 					})
 
 				case "PUT":
