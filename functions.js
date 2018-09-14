@@ -67,4 +67,24 @@ function updateDataFromPUT(request, callback) {
 	}
 }
 
-module.exports = { emptyObject, getDataFromPOST, updateDataFromPUT }
+function deleteDataFromDELETE(request, callback) {
+	let jsonHeader = "application/json"
+
+	let urlParts = parseInt(request.url.split("/")[2], 10)
+
+	User.findById(urlParts).then(res => { return res.destroy() }).then(_ => { "DELETED" })
+
+	callback("DELETED USER - BOOM!")
+	// if (request.headers["content-type"] === jsonHeader) {
+	// 	request.on("end", () => {
+	// 		console.log(urlParts, " ___ DELETED DAMN IT! _____")
+
+
+	// 	})
+	// } else {
+	// 	callback("That's not what it had to be but ... I AM SORRY!")
+	// }
+
+}
+
+module.exports = { emptyObject, getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE }
