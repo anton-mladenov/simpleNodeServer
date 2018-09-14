@@ -1,4 +1,5 @@
 const { parse } = require("querystring")
+const User = require("./model")
 
 let emptyObject = {
 	letters: "abc & xyz",
@@ -18,8 +19,15 @@ function getDataFromPOST(request, callback) {
 
 		request.on("end", () => {
 			let parsedBody = JSON.parse(body)
-			console.log(" ___ Parsed Body ___ : ", parsedBody)
-			callback(`${Object.keys(parsedBody)} : ${Object.values(parsedBody)}`)
+
+			const user = {
+				name: parsedBody.name,
+				email: parsedBody.email
+			}
+
+			User.create(user)
+
+			callback(user)
 		})
 	} else {
 		callback("That's not what it had to be but ... I AM SORRY!")
@@ -28,6 +36,8 @@ function getDataFromPOST(request, callback) {
 
 function updateDataFromPUT(request, callback) {
 	let jsonHeader = "application/json"
+
+	let urlParts = parseInt(request.url.split("/")[2], 10)
 
 	if (request.headers["content-type"] === jsonHeader) {
 		let body = ""
@@ -39,21 +49,18 @@ function updateDataFromPUT(request, callback) {
 		request.on("end", () => {
 			let parsedBody = JSON.parse(body)
 
-			if (!parsedBody.letters && parsedBody.numbers && parsedBody.booleansBro) {
-				callback("Nothing to update here, man.")
-			}
-			if (parsedBody.letters) {
-				emptyObject.letters = parsedBody.letters
-			}
-			if (parsedBody.numbers) {
-				emptyObject.numbers = parsedBody.numbers
-			}
-			if (parsedBody.booleansBro) {
-				emptyObject.booleansBro = parsedBody.booleansBro
+			const user = {
+				name: parsedBody.name,
+				email: parsedBody.email
 			}
 
-			console.log(" ___ Parsed Body ___ : ", emptyObject)
-			callback(`${Object.keys(emptyObject)} : ${Object.values(emptyObject)}`)
+			if (!parsedBody.name && !parsedBody.email) {
+				callback("Nothing to update here, man.")
+			}
+
+			User.findById(urlParts).then(res => res.update(user))
+
+			callback(user)
 		})
 	} else {
 		callback("That's not what it had to be but ... I AM SORRY!")

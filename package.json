@@ -1,0 +1,13 @@
+{
+  "name": "NodeJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:anton-mladenov/simpleNodeServer.git",
+  "author": "anton-mladenov <tonkata@mail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "pg": "^7.4.3",
+    "sequelize": "^4.38.1"
+  }
+}
