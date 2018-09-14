@@ -1,14 +1,8 @@
 const http = require("http")
-const { getDataFromPOST } = require("./functions")
+const { getDataFromPOST, emptyObject, updateDataFromPUT } = require("./functions")
 
 const hostname = "127.0.0.1"
 const port = 3000
-
-let emptyObject = {
-	letters: "abc & xyz",
-	numbers: 12345,
-	booleansBro: false
-}
 
 const server = http.createServer((req, res) => {
 
@@ -23,8 +17,14 @@ const server = http.createServer((req, res) => {
 
 				case "POST":
 					return getDataFromPOST(req, response => {
-						console.log("Success from POST 2 /")
+						console.log("Success from POST 2 /.")
 						res.end(`DONE! ${response.name}`)
+					})
+
+				case "PUT":
+					return updateDataFromPUT(req, response => {
+						console.log("Success from PUT 2 /.")
+						res.end(`Updated! ${response}`)
 					})
 
 				default:
