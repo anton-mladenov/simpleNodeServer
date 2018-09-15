@@ -1,6 +1,24 @@
 const { parse } = require("querystring")
 const User = require("./model")
 
+function getDataFromGET(request, callback) {
+	let jsonHeader = "application/json"
+
+	if (request.headers["content-type"] === jsonHeader) {
+
+		User.findAll().then(allUsers => {
+			callback(
+				allUsers.map(e => e.dataValues)
+				// users: allUsers.map(user => user.dataValues)
+			)
+		})
+
+	} else {
+		callback("That's not what it had to be but ... I AM SORRY!")
+	}
+}
+
+
 function getDataFromPOST(request, callback) {
 	let jsonHeader = "application/json"
 
@@ -71,4 +89,4 @@ function deleteDataFromDELETE(request, callback) {
 
 }
 
-module.exports = { getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE }
+module.exports = { getDataFromGET, getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE }

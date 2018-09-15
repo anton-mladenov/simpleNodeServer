@@ -1,5 +1,5 @@
 const http = require("http")
-const { getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE } = require("./functions")
+const { getDataFromGET, getDataFromPOST, updateDataFromPUT, deleteDataFromDELETE } = require("./functions")
 const User = require("./model")
 
 const hostname = "127.0.0.1"
@@ -10,9 +10,9 @@ const server = http.createServer((req, res) => {
 
 	switch (req.method) {
 		case "GET":
-			res.end(
-				`Here are the letters: ${emptyObject.letters}; here are the numbers: ${emptyObject.numbers}; here are the booleans, bro: ${emptyObject.booleansBro}`
-			)
+			return getDataFromGET(req, response => {
+				res.end(`All users: \n${response.map(e => `\n${e.id} ${e.name} ${e.email}`)}`)
+			})
 
 		case "POST":
 			return getDataFromPOST(req, response => {
